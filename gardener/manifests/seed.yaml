@@ -1,0 +1,81 @@
+# ORDER MATTERS HERE BECAUSE OF YQ PARSER!
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: garden-dev
+  labels:
+    networking.shoot.gardener.cloud/provider: calico
+    shoot.gardener.cloud/provider: kubevirt
+    gardener.cloud/role: project
+    project.gardener.cloud/name: dev
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: CloudProfile
+metadata:
+  name: local
+spec:
+  type: kubevirt
+  providerConfig:
+    foo: bar
+  kubernetes:
+    versions:
+      - version: "1.17.5"
+  machineImages:
+    - name: "ubuntu"
+      versions:
+        - version: "19.04"
+  machineTypes:
+    - name: "local"
+      cpu: "2"
+      gpu: "0"
+      memory: "8Gi"
+      usable: true
+  regions:
+    - name: local
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: Project
+metadata:
+  name: dev
+spec:
+  owner:
+    apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: marcin.franczyk@sap.com
+  members:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: User
+      name: somebody@sap.com
+      role: admin
+  namespace: garden-dev
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: seed-secret
+  namespace: garden
+type: Opaque
+data:
+  kubeconfig: << KUBECONFIG SEED >>
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: Seed
+metadata:
+  name: seed1
+spec:
+  provider:
+    type: kubevirt
+    region: local
+  secretRef:
+    name: seed-secret
+    namespace: garden
+  dns:
+    ingressDomain: 172.18.0.2.nip.io
+  networks: # Seed and Shoot networks must be disjunct
+    nodes: 172.18.0.0/16
+    pods: 10.244.0.0/16
+    services: 10.96.0.0/12
+  settings:
+    shootDNS:
+      enabled: false

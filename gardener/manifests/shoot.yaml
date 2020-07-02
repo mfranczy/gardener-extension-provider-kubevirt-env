@@ -1,0 +1,73 @@
+# ORDER MATTERS HERE BECAUSE OF YQ PARSER!
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kubevirt-provider-credentials
+  namespace: garden-dev
+type: Opaque
+data:
+  kubeconfig: << KUBECONFIG SHOOT >>
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: SecretBinding
+metadata:
+  name: kubevirt-provider-credentials
+  namespace: garden-dev
+secretRef:
+  name: kubevirt-provider-credentials
+quotas: []
+---
+apiVersion: core.gardener.cloud/v1beta1
+kind: Shoot
+metadata:
+  name: kubevirt-1
+  namespace: garden-dev
+spec:
+  secretBindingName: kubevirt-provider-credentials
+  cloudProfileName: local
+  region: local
+  purpose: development # {testing,development,production,infrastructure}, "infrastructure" purpose only usable for shoots in garden namespace
+  provider:
+    type: kubevirt
+    infrastructureConfig:
+      foo: bar
+    controlPlaneConfig:
+      foo: bar
+    workers:
+      - name: cpu-worker
+        minimum: 3
+        maximum: 5
+        machine:
+          type: local
+          image:
+            name: "ubuntu"
+            version: "19.04"
+  kubernetes:
+    version: 1.17.5
+  networking:
+    type: calico
+    pods: 100.96.0.0/11
+    nodes: 10.250.0.0/16
+    services: 100.64.0.0/13
+    providerConfig:
+      apiVersion: extensions.gardener.cloud/v1alpha1
+      kind: Network
+      metadata:
+        name: calico-network
+        namespace: garden-dev
+      spec:
+        type: calico
+        podCIDR: 100.96.0.0/11
+        serviceCIDR:  100.64.0.0/13
+        providerConfig:
+          apiVersion: calico.networking.extensions.gardener.cloud/v1alpha1
+          kind: NetworkConfig
+          backend: bird
+          ipam:
+            type: host-local
+            cidr: usePodCIDR
+  addons:
+    nginxIngress:
+      enabled: false
+    kubernetesDashboard:
+      enabled: false
