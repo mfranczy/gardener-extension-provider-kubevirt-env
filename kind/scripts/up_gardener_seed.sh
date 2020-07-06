@@ -16,13 +16,4 @@ kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 install_metallb
 # apply metallb network config
 kubectl apply -f "${BASE_PATH}"/../manifests/seed-lb.yaml
-
-# TODO: check helm version and switch to helm3
-helm init
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule \
---clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-kubectl patch deploy --namespace kube-system tiller-deploy -p \
-'{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-
 export_kubeconfig "${SEED_CLUSTER_NAME}"
