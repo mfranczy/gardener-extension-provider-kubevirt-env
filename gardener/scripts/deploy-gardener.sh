@@ -10,7 +10,7 @@ source "$(dirname "$0")"/common.sh
 
 # deploy gardener and gardenlet
 helm install gardener-controlplane "${GARDENER_PATH}"/charts/gardener/controlplane \
-  --create-namespace --namespace garden -f "${BASE_PATH}"/../charts/gardener-values.yaml --wait
+  --create-namespace --namespace garden -f "${BASE_PATH}"/../charts/gardener-values.yaml --atomic
 
 helm install gardenlet "${GARDENER_PATH}"/charts/gardener/gardenlet \
- --create-namespace --namespace garden -f "${BASE_PATH}"/../charts/gardenlet-values.yaml --wait
+ --create-namespace --namespace garden -f "${BASE_PATH}"/../charts/gardenlet-values.yaml --atomic

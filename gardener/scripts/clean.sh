@@ -3,8 +3,8 @@
 # shellcheck source=gardener/scripts/common.sh
 source "$(dirname "$0")"/common.sh
 
-helm del --purge gardener-controlplane
-helm del --purge gardenlet
+helm del -ngarden gardener-controlplane
+helm del -ngarden gardenlet
 
 kubectl delete -f "${KUBEVIRT_DEPLOY_PATH}"/20-crd-cluster.yaml
 kubectl delete -f "${KUBEVIRT_DEPLOY_PATH}"/20-crd-infrastructure.yaml
