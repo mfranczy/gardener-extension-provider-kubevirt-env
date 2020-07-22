@@ -17,7 +17,7 @@ kubeconfig_shoot_internal=$(kind get kubeconfig --name "${SHOOT_CLUSTER_NAME}" -
 
 yq w -d3 "${BASE_PATH}"/../manifests/seed.yaml data.kubeconfig "${kubeconfig_seed_internal}" \
  > "${BASE_PATH}"/../manifests/seed.yaml.render
-yq w -d0 "${BASE_PATH}"/../manifests/shoot.yaml data.kubeconfig "${kubeconfig_seed_internal}" \
+yq w -d0 "${BASE_PATH}"/../manifests/shoot.yaml data.kubeconfig "${kubeconfig_shoot_internal}" \
  > "${BASE_PATH}"/../manifests/shoot.yaml.render
 
 kubectl apply -f "${BASE_PATH}"/../manifests/seed.yaml.render

@@ -26,7 +26,7 @@ spec:
   secretBindingName: kubevirt-provider-credentials
   cloudProfileName: local
   region: local
-  purpose: development # {testing,development,production,infrastructure}, "infrastructure" purpose only usable for shoots in garden namespace
+  purpose: development
   provider:
     type: kubevirt
     infrastructureConfig:
@@ -49,13 +49,13 @@ spec:
     pods: 100.96.0.0/11
     nodes: 10.250.0.0/16
     services: 100.64.0.0/13
-      providerConfig:
-        apiVersion: calico.networking.extensions.gardener.cloud/v1alpha1
-        kind: NetworkConfig
-        backend: bird
-        ipam:
-          type: host-local
-          cidr: usePodCIDR
+    providerConfig:
+      apiVersion: calico.networking.extensions.gardener.cloud/v1alpha1
+      kind: NetworkConfig
+      backend: bird
+      ipam:
+        type: host-local
+        cidr: usePodCIDR
   addons:
     nginxIngress:
       enabled: false
