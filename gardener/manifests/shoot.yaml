@@ -49,23 +49,13 @@ spec:
     pods: 100.96.0.0/11
     nodes: 10.250.0.0/16
     services: 100.64.0.0/13
-    providerConfig:
-      apiVersion: extensions.gardener.cloud/v1alpha1
-      kind: Network
-      metadata:
-        name: calico-network
-        namespace: garden-dev
-      spec:
-        type: calico
-        podCIDR: 100.96.0.0/11
-        serviceCIDR:  100.64.0.0/13
-        providerConfig:
-          apiVersion: calico.networking.extensions.gardener.cloud/v1alpha1
-          kind: NetworkConfig
-          backend: bird
-          ipam:
-            type: host-local
-            cidr: usePodCIDR
+      providerConfig:
+        apiVersion: calico.networking.extensions.gardener.cloud/v1alpha1
+        kind: NetworkConfig
+        backend: bird
+        ipam:
+          type: host-local
+          cidr: usePodCIDR
   addons:
     nginxIngress:
       enabled: false
