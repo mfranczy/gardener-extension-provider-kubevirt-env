@@ -28,6 +28,9 @@ adjust MetalLB subnets under
 
 *NOTE: both clusters should have different subnets for the LoadBalancer service*
 
+Install the gardener repository and checkout the v1.7.2 tag
+`go get github.com/gardener/gardener/... && cd $GOPATH/src/gardener/gardener && git checkout v1.7.2`
+
 ## Run the environment
 
 ### Bring up clusters
