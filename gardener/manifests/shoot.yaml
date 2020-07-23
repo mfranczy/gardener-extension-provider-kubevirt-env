@@ -30,18 +30,21 @@ spec:
   provider:
     type: kubevirt
     infrastructureConfig:
-      foo: bar
+      # namespace where VMs are going to be created
+      namespace: "default"
     controlPlaneConfig:
       foo: bar
     workers:
-      - name: cpu-worker
-        minimum: 3
-        maximum: 5
-        machine:
-          type: local
-          image:
-            name: "ubuntu"
-            version: "19.04"
+    - name: cpu-worker
+      minimum: 3
+      maximum: 5
+      providerConfig:
+        namespace: default
+      machine:
+        type: local
+        image:
+          name: "ubuntu"
+          version: "16.04"
   kubernetes:
     version: 1.17.5
   networking:

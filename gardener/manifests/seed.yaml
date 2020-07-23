@@ -17,22 +17,32 @@ metadata:
 spec:
   type: kubevirt
   providerConfig:
-    foo: bar
+    apiVersion: kubevirt.provider.extensions.gardener.cloud/v1alpha1
+    kind: CloudProfileConfig
+#    machineTypes:
+#      - name: Standard_D3_v2
+#        acceleratedNetworking: true
+#      - name: Standard_D4_v3
+    machineImages:
+    - name: ubuntu
+      versions:
+      - version: "16.04"
+        sourceURL: "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
   kubernetes:
     versions:
-      - version: "1.17.5"
+    - version: "1.17.5"
   machineImages:
-    - name: "ubuntu"
-      versions:
-        - version: "19.04"
+  - name: "ubuntu"
+    versions:
+    - version: "16.04"
   machineTypes:
-    - name: "local"
-      cpu: "2"
-      gpu: "0"
-      memory: "8Gi"
-      usable: true
+  - name: "local"
+    cpu: "2"
+    gpu: "0"
+    memory: "8Gi"
+    usable: true
   regions:
-    - name: local
+  - name: local
 ---
 apiVersion: core.gardener.cloud/v1beta1
 kind: Project
@@ -44,10 +54,10 @@ spec:
     kind: User
     name: marcin.franczyk@sap.com
   members:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: User
-      name: somebody@sap.com
-      role: admin
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: somebody@sap.com
+    role: admin
   namespace: garden-dev
 ---
 apiVersion: v1
