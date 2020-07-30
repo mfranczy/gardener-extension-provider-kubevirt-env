@@ -29,17 +29,13 @@ spec:
   purpose: development
   provider:
     type: kubevirt
-    infrastructureConfig:
-      # namespace where VMs are going to be created
-      namespace: "default"
-    controlPlaneConfig:
-      foo: bar
+    infrastructureConfig: {}
+    controlPlaneConfig: {}
     workers:
     - name: cpu-worker
       minimum: 3
       maximum: 5
-      providerConfig:
-        namespace: default
+      providerConfig: {}
       machine:
         type: local
         image:

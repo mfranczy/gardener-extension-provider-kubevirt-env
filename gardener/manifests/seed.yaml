@@ -19,10 +19,9 @@ spec:
   providerConfig:
     apiVersion: kubevirt.provider.extensions.gardener.cloud/v1alpha1
     kind: CloudProfileConfig
-#    machineTypes:
-#      - name: Standard_D3_v2
-#        acceleratedNetworking: true
-#      - name: Standard_D4_v3
+    machineDeploymentConfig:
+    - machineTypeName: "local"
+      namespace: "default"
     machineImages:
     - name: ubuntu
       versions:
@@ -37,9 +36,13 @@ spec:
     - version: "16.04"
   machineTypes:
   - name: "local"
-    cpu: "2"
+    cpu: "100m"
     gpu: "0"
     memory: "8Gi"
+    storage:
+      class: "standard"
+      type: "DataVolume"
+      size: "10Gi"
     usable: true
   regions:
   - name: local
