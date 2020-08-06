@@ -3,6 +3,9 @@
 global:
   # Gardener API server configuration values
   apiserver:
+    image:
+      repository: "eu.gcr.io/gardener-project/gardener/apiserver"
+      tag: "v1.7.2"
     etcd:
       useSidecar: true
     # Don't care about certificates for local development scenario

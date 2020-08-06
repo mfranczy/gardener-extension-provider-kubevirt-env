@@ -6,8 +6,8 @@ global:
     revisionHistoryLimit: 10
     serviceAccountName: gardenlet
     image:
-      repository: eu.gcr.io/gardener-project/gardener/gardenlet
-      tag: latest
+      repository: "eu.gcr.io/gardener-project/gardener/gardenlet"
+      tag: "v1.7.2"
       pullPolicy: IfNotPresent
     resources:
       requests:
